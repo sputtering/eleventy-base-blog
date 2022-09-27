@@ -1,14 +1,13 @@
 ---
 layout: layouts/home.njk
 eleventyNavigation:
-  key: Home
+  key: Briefing
   order: 1
 ---
-{% set maxPosts = collections.posts.length | min(3) %}
-<h1>Latest {% if maxPosts == 1 %}Post{% else %}{{ maxPosts }} Posts{% endif %}</h1>
-
-{% set postslist = collections.posts | head(-3) %}
-{% set postslistCounter = collections.posts | length %}
-{% include "postslist.njk" %}
-
-<p>More posts can be found in <a href="{{ '/posts/' | url }}">the archive</a>.</p>
+<h1>Good Evening PVT</h1>
+<p>
+I'm sure by now Sergeant Furlan has given you your orders on how to proceed. <br>
+Familerize yourself on any new intelegence that has come in. Then login to your terminal
+and get to work. <br><br>
+Failure is not an option.
+</p>

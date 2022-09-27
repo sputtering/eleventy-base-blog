@@ -1,8 +1,8 @@
 {
-  "title": "Your Blog Name",
-  "url": "https://example.com/",
+  "title": "White Rabbit Systems",
+  "url": "https://whiterabbit.systems/",
   "language": "en",
-  "description": "I am writing about my experiences as a naval navel-gazer.",
+  "description": "Not Penny's Boat",
   "feed": {
     "subtitle": "I am writing about my experiences as a naval navel-gazer.",
     "filename": "feed.xml",
