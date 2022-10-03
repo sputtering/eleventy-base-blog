@@ -10,7 +10,7 @@ const markdownItAnchor = require("markdown-it-anchor");
 module.exports = function (eleventyConfig) {
   // Copy the `img` and `css` folders to the output
   eleventyConfig.addPassthroughCopy("img");
-  eleventyConfig.addPassthroughCopy("css");
+  // eleventyConfig.addPassthroughCopy("css");
 
   // Add plugins
   // eleventyConfig.addPlugin(pluginRss);
@@ -86,6 +86,11 @@ module.exports = function (eleventyConfig) {
 
   // Override Browsersync defaults (used only with --serve)
   eleventyConfig.setBrowserSyncConfig({
+
+    // this watches the final site folder, so that if new CSS
+    // is compiled, then the local browser refreshes
+    files: './_site/css/**/*.css',
+
     callbacks: {
       ready: function (err, browserSync) {
         const content_404 = fs.readFileSync('_site/404.html');
@@ -99,7 +104,8 @@ module.exports = function (eleventyConfig) {
       },
     },
     ui: false,
-    ghostMode: false
+    ghostMode: false,
+    open: true
   });
 
   eleventyConfig.addWatchTarget('./js/');
