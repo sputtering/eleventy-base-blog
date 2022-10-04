@@ -1,0 +1,35 @@
+@font-face {
+    font-family: "gaegu";
+    src: url('/font/Gaegu-Light.ttf')format("truetype");
+}
+
+.notes {
+    font-family: 'gaegu';
+    font-size: 1.30em;
+}
+
+/* need to use SASS for varients properly */
+/* also should rename the notes for clarity */
+.notes-a {
+    font-family: 'gaegu';
+    font-size: 1.1em;
+}
+
+.notes-b {
+    font-family: 'gaegu';
+    font-size: 1.1em;
+    letter-spacing: -3px;
+
+}
+
+
+.notes-c {
+    font-family: 'gaegu';
+    font-size: 1.1em;
+    letter-spacing: 2px;
+}
+
+.n-bl {
+    text-shadow: 0 0 1.1em rgba(0, 0, 0, 0.75);
+    filter: blur(.05em);
+}

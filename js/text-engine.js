@@ -1,3 +1,5 @@
+"use strict";
+
 // global properties, assigned with let for easy overriding by the user
 let diskFactory;
 let disk;
@@ -804,6 +806,9 @@ let setInput = (str) => {
 // render output, with optional class
 // (string | array | fn -> string) -> nothing
 export let println = (line, className) => {
+    const query_id = '#output';
+    const output_element = 'div';
+
     // bail if string is null or undefined
     if (!line) {
         return;
@@ -817,8 +822,8 @@ export let println = (line, className) => {
                 // otherwise, line should be a string
                 : line;
 
-    const output = document.querySelector('#output');
-    const newLine = document.createElement('div');
+    const output = document.querySelector(query_id);
+    const newLine = document.createElement(output_element);
 
     if (className) {
         newLine.classList.add(className);
@@ -1100,7 +1105,10 @@ let print = () => {
         }
 
         // scroll to the most recent output at the bottom of the page
-        window.scrollTo(0, document.body.scrollHeight);
+        // window.scrollTo(0, document.body.scrollHeight);
+        // this should scroll to the bottom
+        var objDiv = document.querySelector('#output');
+        objDiv.scrollTop = objDiv.scrollHeight;
     }
 
     requestAnimationFrame(print);
