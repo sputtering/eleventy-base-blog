@@ -22,6 +22,12 @@
 
 }
 
+.notes-b2 {
+    font-family: 'gaegu';
+    font-size: 1.1em;
+    letter-spacing: -2.5px;
+}
+
 
 .notes-c {
     font-family: 'gaegu';
@@ -32,4 +38,9 @@
 .n-bl {
     text-shadow: 0 0 1.1em rgba(0, 0, 0, 0.75);
     filter: blur(.05em);
+}
+
+.n-blh {
+    text-shadow: 0 0 1.1em rgba(0, 0, 0, 0.75);
+    filter: blur(.15em);
 }

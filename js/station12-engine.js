@@ -44,6 +44,28 @@ let init = (disk) => {
     return initializedDisk;
 };
 
+// new commands
+
+let logIn = (args) => {
+    const username = 'rjones';
+    const password = 'Ttlg716';
+
+    if (args.length != 2) {
+        invalidUsage();
+    } else {
+        console.log(args);
+        console.log(args[0]);
+
+        if (args[0] == username && args[1] == password) {
+            println('\nLogin successful');
+        } else {
+            println('\nLogin not recognized.\nInvalid Access attemped recorded.\n\n')
+        }
+    }
+};
+
+// end of new commands
+
 // register listeners for input events
 let setup = () => {
     input.addEventListener('keypress', (e) => {
@@ -626,27 +648,19 @@ let chars = () => {
 // display help menu
 let help = () => {
     const instructions = `The following commands are available:
-    LOOK:           'look at key'
-    TAKE:           'take book'
-    GO:             'go north'
-    USE:            'use door'
-    TALK:           'talk to mary'
-    ITEMS:          list items in the room
-    CHARS:          list characters in the room
-    INV:            list inventory items
-    SAVE/LOAD:      save current game, or load a saved game (in memory)
-    IMPORT/EXPORT:  save current game, or load a saved game (on disk)
+
     HELP:   this help menu
+    LOGIN:  login to system with username and password
   `;
     println(instructions);
 };
 
 // handle say command with no args
-let say = () => println([`Say what?`, `You don't say.`]);
+// let say = () => println([`Say what?`, `You don't say.`]);
 
 // say the passed string
 // string -> nothing
-let sayString = (str) => println(`You say ${removePunctuation(str)}.`);
+// let sayString = (str) => println(`You say ${removePunctuation(str)}.`);
 
 // retrieve user input (remove whitespace at beginning or end)
 // nothing -> string
@@ -661,61 +675,64 @@ let getInput = () => input.value.trim();
 let commands = [
     // no arguments (e.g. "help", "chars", "inv")
     {
-        inv,
-        i: inv, // shortcut for inventory
-        inventory: inv,
-        look,
-        l: look, // shortcut for look
-        go,
-        n,
-        s,
-        e,
-        w,
-        ne,
-        se,
-        sw,
-        nw,
-        talk,
-        t: talk, // shortcut for talk
-        take,
-        get: take,
-        items,
-        use,
-        chars,
-        characters: chars,
+        // inv,
+        // i: inv, // shortcut for inventory
+        // inventory: inv,
+        // look,
+        // l: look, // shortcut for look
+        // go,
+        // n,
+        // s,
+        // e,
+        // w,
+        // ne,
+        // se,
+        // sw,
+        // nw,
+        // talk,
+        // t: talk, // shortcut for talk
+        // take,
+        // get: take,
+        // items,
+        // use,
+        // chars,
+        // characters: chars,
         help,
-        say,
-        save,
-        load,
-        restore: load,
-        export: exportSave,
-        import: importSave,
+        //        say,
+        // save,
+        // load,
+        // restore: load,
+        // export: exportSave,
+        // import: importSave,
+        login: logIn,
     },
     // one argument (e.g. "go north", "take book")
     {
-        look: lookThusly,
-        go: goDir,
-        take: takeItem,
-        get: takeItem,
-        use: useItem,
-        say: sayString,
-        save: x => save(x),
-        load: x => load(x),
-        restore: x => load(x),
-        x: x => lookAt([null, x]), // IF standard shortcut for look at
-        t: x => talkToOrAboutX('to', x), // IF standard shortcut for talk
-        export: exportSave,
-        import: importSave, // (ignores the argument)
+        // look: lookThusly,
+        // go: goDir,
+        // take: takeItem,
+        // get: takeItem,
+        // use: useItem,
+        // //        say: sayString,
+        // save: x => save(x),
+        // load: x => load(x),
+        // restore: x => load(x),
+        // x: x => lookAt([null, x]), // IF standard shortcut for look at
+        // t: x => talkToOrAboutX('to', x), // IF standard shortcut for talk
+        // export: exportSave,
+        // import: importSave, // (ignores the argument),
+        login: logIn,
     },
     // two+ arguments (e.g. "look at key", "talk to mary")
     {
-        look: lookAt,
-        say(args) {
-            const str = args.reduce((cur, acc) => cur + ' ' + acc, '');
-            sayString(str);
-        },
-        talk: args => talkToOrAboutX(args[0], args[1]),
-        x: args => lookAt([null, ...args]),
+        //        look: lookAt,
+        // say(args) {
+        //     const str = args.reduce((cur, acc) => cur + ' ' + acc, '');
+        //     sayString(str);
+        // },
+        //        talk: args => talkToOrAboutX(args[0], args[1]),
+        //        x: args => lookAt([null, ...args]),
+        login: logIn,
     },
 ];
 
@@ -733,7 +750,11 @@ let applyInput = (input) => {
     inputsPos = inputs.length;
     println(`> ${input}`);
 
-    const val = input.toLowerCase();
+
+    // const val = input.toLowerCase();
+    const val = input;
+
+
     setInput(''); // reset input field
 
     const exec = (cmd, arg) => {
@@ -742,7 +763,7 @@ let applyInput = (input) => {
         } else if (disk.conversation) {
             println(`Type the capitalized KEYWORD to select a topic.`);
         } else {
-            println(`Sorry, I didn't understand your input. For a list of available commands, type HELP.`);
+            println(`That command is invalid or you do not have access to use it.`);
         }
     };
 
@@ -751,9 +772,9 @@ let applyInput = (input) => {
     // remove articles
     // (except for the say command, which prints back what the user said)
     // (and except for meta commands to allow save names such as 'a')
-    if (args[0] !== 'say' && isNotSaveLoad(args[0])) {
-        args = args.filter(arg => arg !== 'a' && arg !== 'an' && arg != 'the');
-    }
+    // if (args[0] !== 'say' && isNotSaveLoad(args[0])) {
+    //     args = args.filter(arg => arg !== 'a' && arg !== 'an' && arg != 'the');
+    // }
 
     const [command, ...argmnts] = args;
     const room = getRoom(disk.roomId);
@@ -852,6 +873,10 @@ export let println = (line, className) => {
     // push into the queue to print to the DOM
     printQueue.push(newLine);
 };
+
+let invalidUsage = () => {
+    println('Invalid invocation of command');
+}
 
 // predict what the user is trying to type
 let autocomplete = () => {
