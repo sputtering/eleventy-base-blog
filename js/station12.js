@@ -1,10 +1,55 @@
-import { getRoom as getRoom, getExit as getExit, println as println, getItem as getItem } from "./text-engine"
+import { getRoom as getRoom, getExit as getExit, println as println, getItem as getItem } from "./station12-engine"
 
 // This simple game disk can be used as a starting point to create a new adventure.
 // Change anything you want, add new rooms, etc.
 export const station12 = () => ({
-    roomId: 'start', // Set this to the ID of the room you want the player to start in.
+    roomId: 'login_prompt', // Set this to the ID of the room you want the player to start in.
     rooms: [
+        {
+            id: 'login_prompt', // Unique identifier for this room. Entering a room will set the disk's roomId to this.
+            name: '<em>TERMINAL LOCKED</em>', // Displayed each time the player enters the room.
+            desc: `Type <em>login</em> followed by a space, followed by your username.<br>Access attempts are monitored.<br>`, // Displayed when the player first enters the room.
+            items: [
+                {
+                    name: 'door',
+                    desc: 'It leads NORTH.', // Displayed when the player looks at the item.
+                    onUse: () => println(`Type GO NORTH to try the door.`), // Called when the player uses the item.
+                },
+                {
+                    name: ['vines', 'vine'], // The player can refer to this item by either name. The game will use the first name.
+                    desc: `They grew over the DOOR, blocking it from being opened.`,
+                },
+                {
+                    name: 'axe',
+                    desc: `You could probably USE it to cut the VINES, unblocking the door.`,
+                    isTakeable: true, // Allows the player to take the item.
+                    onUse() {
+                        // Remove the block on the room's only exit.
+                        const room = getRoom('start');
+                        const exit = getExit('north', room.exits);
+
+                        if (exit.block) {
+                            delete exit.block;
+                            println(`You cut through the vines, unblocking the door to the NORTH.`);
+
+                            // Update the axe's description.
+                            getItem('axe').desc = `You USED it to cut the VINES, unblocking the door.`;
+                        } else {
+                            println(`There is nothing to use the axe on.`);
+                        }
+                    },
+                }
+            ],
+            exits: [
+                {
+                    dir: 'north', // "dir" can be anything. If it's north, the player will type "go north" to get to the room called "A Forest Clearing".
+                    id: 'clearing',
+                    block: `The DOOR leading NORTH is overgrown with VINES.`, // If an exit has a block, the player will not be able to go that direction until the block is removed.
+                },
+            ],
+        },
+
+
         {
             id: 'start', // Unique identifier for this room. Entering a room will set the disk's roomId to this.
             name: 'The First Room', // Displayed each time the player enters the room.
